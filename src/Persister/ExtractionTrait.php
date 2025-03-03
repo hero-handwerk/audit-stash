@@ -5,8 +5,6 @@ namespace AuditStash\Persister;
 
 use AuditStash\Event\BaseEvent;
 use AuditStash\EventInterface;
-use Cake\Database\Type\DateTimeType;
-use Cake\Database\TypeFactory;
 use Cake\Utility\Hash;
 use DateTime;
 
@@ -31,10 +29,6 @@ trait ExtractionTrait
             'changed' => null,
             'created' => new DateTime($event->getTimestamp()),
         ];
-
-        if (TypeFactory::getMap('datetime') !== DateTimeType::class) {
-            $fields['created'] = (new DateTime($event->getTimestamp()))->format('Y-m-d H:i:s');
-        }
 
         if (method_exists($event, 'getParentSourceName')) {
             $fields['parent_source'] = $event->getParentSourceName();
